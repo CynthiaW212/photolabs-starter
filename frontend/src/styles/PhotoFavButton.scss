@@ -1,5 +1,8 @@
 .photo-list__fav-icon {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 8px;
   right: -8px;
   cursor: pointer;

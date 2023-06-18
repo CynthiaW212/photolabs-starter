@@ -6,6 +6,7 @@ The PhotoLabs project for the Web Development React course programming.
 ## Setup
 
 Install dependencies with `npm install` in each respective `/frontend` and `/backend`.
+Read `frontend/readme` and `backend/readme` for further setup details.
 
 ## [Frontend] Running Webpack Development Server
 
@@ -15,10 +16,16 @@ npm start
 ```
 
 ## [Backend] Running Backend Servier
-
-Read `backend/readme` for further setup details.
-
 ```sh
 cd backend
 npm start
 ```
+
+## Tech Stack
+  React
+  Create React App
+  Webpack
+  Babel
+  Express
+  PostgreSQL
+  SASS
