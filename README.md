@@ -4,7 +4,8 @@ The PhotoLabs project for the Web Development React course programming.
 # Photolabs
 
 ## Video
-https://github.com/CynthiaW212/photolabs-starter/blob/main/docs/PhotoLabs-screenshot.mp4 
+![screenshot1](https://github.com/CynthiaW212/photolabs-starter/blob/main/docs/PhotoLabs-screenshot.mp4 ?raw=true)
+
 
 ## Setup
 
