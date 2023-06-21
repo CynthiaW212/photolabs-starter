@@ -1,8 +1,10 @@
-import { useReducer } from 'react';
+import { useReducer,useEffect} from 'react';
 
 const SET_SELECTED_PHOTO = 'SET_SELECTED_PHOTO';
 const SET_PHOTO_FAVOURITES = 'SET_PHOTO_FAVOURITES';
 const TOGGLE_FAVOURITE = 'TOGGLE_FAVOURITE';
+const SET_PHOTOS = 'SET_PHOTOS';
+const SET_TOPICS = 'SET_TOPICS';
 
 const initialState = {
   selectedPhoto: null,
@@ -33,6 +35,16 @@ const reducer = (state, action) => {
           [id]: true
         }
       };
+    case SET_PHOTOS:
+      return {
+        ...state,
+        photos: action.payload,
+      };
+    case SET_TOPICS:
+      return {
+        ...state,
+        topics: action.payload,
+      };
     default:
       throw new Error(`Unsupported action type: ${action.type}`);
   }
@@ -41,6 +53,41 @@ const reducer = (state, action) => {
 const useApplicationData = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    fetch('/api/photos')
+      .then(res => res.json())
+      .then(data => {
+        dispatch({type:SET_PHOTOS, payload:data});
+      })
+      .catch((error) => console.error("Error fetching photos:", error));
+    }, []);
+  
+  useEffect(() => {
+    fetch('/api/topics')
+      .then(res => res.json())
+      .then(data => {
+        dispatch({type:SET_TOPICS, payload:data});
+      })
+      .catch((error) => console.error("Error fetching topics:", error));
+    }, []);
+  
+  const handleTopicClick = (topicId) => {
+    if (topicId) {
+      fetch(`/api/topics/photos/${topicId}`)
+        .then((response) => response.json())
+        .then(data => {
+          dispatch({type:SET_PHOTOS, payload:data});
+        })
+       .catch((error) => {
+          console.error(error);
+        })
+    }
+  };
+  
+  useEffect(() => {
+      handleTopicClick();
+    }, []);
 
   const openModal = (photo) => {
     dispatch({ type: SET_SELECTED_PHOTO, payload: photo });
@@ -54,12 +101,18 @@ const useApplicationData = () => {
     dispatch({ type: TOGGLE_FAVOURITE, payload: { id } });
   };
 
+  const setPhotos = () => {
+    dispatch({ type: SET_PHOTOS, payload: null });
+  };
+
+
   return {
     state,
     actions: {
       openModal,
       closeModal,
-      selectFavourite
+      selectFavourite,
+      handleTopicClick
     }
   };
 };
