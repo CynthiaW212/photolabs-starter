@@ -6,7 +6,7 @@ import '../styles/TopNavigationBar.scss';
 
 
 const TopNavigation = (props) => {
-  const {topics, favouritedPhotos, handleTopicClick} = props;
+  const {topics, favouritedPhotos, handleTopicClick, onSubmit} = props;
   const hasTrueValue = Object.values(favouritedPhotos).includes(true);
   return (
     <div className="top-nav-bar">
@@ -14,6 +14,7 @@ const TopNavigation = (props) => {
       <TopicList 
         topics = {topics}
         handleTopicClick = {handleTopicClick}
+        onSubmit = {onSubmit}
       />
       <div className="top-nav-bar__fav-icon">
         <FavBadge isFavPhotoExist = {hasTrueValue}/>

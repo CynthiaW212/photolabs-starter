@@ -10,6 +10,7 @@ import useApplicationData from './hooks/useApplicationData';
 const App = () => {
   const [photos, setPhotos] = useState([]);
   const [topics, setTopics] = useState([]);
+  const [searchedPhotos, setSearchedPhotos] = useState([]);
   const { state, actions } = useApplicationData();
   const { selectedPhoto, favouritedPhotos } = state;
   const { openModal, closeModal, selectFavourite } = actions;
@@ -20,13 +21,13 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8001/api/photos')
+    fetch('/api/photos')
       .then(res => res.json())
       .then(data => { setPhotos(data)})
       .catch((error) => console.error("Error fetching photos:", error));
     }, []);
   useEffect(() => {
-    fetch('http://localhost:8001/api/topics')
+    fetch('/api/topics')
       .then(res => res.json())
       .then(data => { setTopics(data)})
       .catch((error) => console.error("Error fetching topics:", error));
@@ -34,7 +35,7 @@ const App = () => {
 
     const handleTopicClick = (topicId) => {
       if (topicId) {
-        fetch(`http://localhost:8001/api/topics/photos/${topicId}`)
+        fetch(`/api/topics/photos/${topicId}`)
           .then((response) => response.json())
           .then((data) => {
             setPhotos(data);
@@ -49,6 +50,33 @@ const App = () => {
       handleTopicClick();
     }, []);
 
+    const onSubmit = (name) => {
+      const resultPhotos = [];
+      console.log("name : ", name);
+      photos.forEach((photo) =>{
+        console.log(photo);
+        console.log(photo.user);
+        if(photo.user.username === name.searchKey){
+          return resultPhotos.push(photo);
+        }
+        if(photo.user.name === name.searchKey){
+          return resultPhotos.push(photo);
+        }
+        if(photo.location.city === name.searchKey){
+          return resultPhotos.push(photo);
+        }
+        if(photo.location.country === name.searchKey){
+          return resultPhotos.push(photo);
+        }
+      });
+      setSearchedPhotos(resultPhotos);
+
+    };
+  
+    useEffect(() => {
+      onSubmit();
+    }, []);
+
   return (
   <div className="App">
     <HomeRoute 
@@ -58,6 +86,8 @@ const App = () => {
           onPhotoItemClick={handlePhotoItemClick}
           selectFavourite={selectFavourite}
           favouritedPhotos = {favouritedPhotos}
+          onSubmit = {onSubmit}
+          searchedPhotos = {searchedPhotos}
           />
     {selectedPhoto && (
         <PhotoDetailsModal

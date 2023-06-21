@@ -9,8 +9,9 @@ const TopicListItem = (props) => {
   };
 
   return(
+  
   <div className="topic-list__item" onClick = {handleClick}>
-      <span>{title}</span>
+    <span>{title}</span>
   </div>
   );
 };
