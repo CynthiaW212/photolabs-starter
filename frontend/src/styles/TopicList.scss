@@ -4,4 +4,33 @@
   justify-content: center;
   align-items: center;
   margin-right: 24px;
+
+
+  .top-nav-bar__photo-search{
+    margin-left: 10px;
+ 
+
+  .top-nav-bar__photo-search button {
+    margin-left: 24px;
+    height: 24px;
+    width: 60px;
+    background-color: lightgrey;
+    color: black;    
+    border-radius: 5px 5px 5px 5px;    
+    font-size: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: rgb(200, 198, 198);
+      cursor:grab;
+    }
+
+    .top-nav-bar__input{
+      height: 24px;
+      border: 1px solid #333334;
+      border-radius: 5px 5px 5px 5px;
+    }
+  }
+}
 }
